@@ -1,0 +1,125 @@
+Những yêu cầu kỹ thuật và công cụ cần thiết để triển khai dự án này?
+Dựa trên các nguồn tài liệu, để triển khai dự án này, bạn cần tuân thủ các yêu cầu kỹ thuật khắt khe về công nghệ, dữ liệu và quy trình thực hiện. Dưới đây là chi tiết các yêu cầu và công cụ cần thiết:
+1. Yêu cầu kỹ thuật cốt lõi
+• Ngôn ngữ lập trình: Bắt buộc phải sử dụng Java vì đây là yêu cầu chính của môn học
+.
+• Nền tảng triển khai: Dự án phải được xây dựng dưới dạng ứng dụng Web
+. Các kết quả chỉ chạy trên màn hình console (màn hình đen) sẽ không đạt yêu cầu
+.
+• Kiến trúc Server: Vì làm web bằng Java, bạn cần sử dụng một Web Server phù hợp, phổ biến nhất là Apache Tomcat hoặc các server khác có khả năng đọc và thực thi code Java
+.
+• Cơ sở dữ liệu: Phải có hệ quản trị cơ sở dữ liệu (DBMS) cài đặt local trên máy, ví dụ như Microsoft SQL Server, MySQL, Oracle hoặc bất kỳ hệ thống nào chạy được trên máy cá nhân
+.
+2. Yêu cầu về dữ liệu và tính năng
+• Khối lượng dữ liệu (Volume): Hệ thống phải xử lý ít nhất 10.000 dòng dữ liệu (records) để mô phỏng thực tế
+. Dữ liệu này có thể được tạo ra bằng cách sử dụng script hoặc AI
+.
+• Chất lượng dữ liệu: Trong bộ dữ liệu mẫu, bạn phải chủ động tạo ra khoảng 5% đến 10% dữ liệu lỗi (ví dụ: số điện thoại thiếu số, sai định dạng) để hệ thống mới có thể thực hiện quy trình làm sạch và kiểm tra tính đúng đắn khi import
+.
+• Tính năng giả lập (Simulator): Ngoài các chức năng quản lý thông thường, dự án cần một phần giả lập real-time để thể hiện việc đơn hàng hoặc sản phẩm phát sinh liên tục, mô phỏng hoạt động vận hành thực tế của các hệ thống như ShopeeFood hay Long Châu
+.
+• Chức năng Import: Hệ thống phải có khả năng import dữ liệu từ các tệp (như CSV hoặc Excel) từ hệ thống cũ vào hệ thống mới thay vì nhập tay thủ công
+.
+3. Công cụ hỗ trợ và Quản lý dự án
+• Quản lý mã nguồn: Bắt buộc sử dụng GitHub để quản lý phiên bản code
+. Thầy giáo sẽ theo dõi lịch sử commit (push) thường xuyên để đánh giá quá trình làm việc của từng thành viên; các dự án chỉ đẩy code lên một lần vào cuối kỳ sẽ không được chấp nhận
+.
+• Thiết kế sơ đồ: Bạn cần thực hiện ít nhất 3 loại lược đồ: Flowchart (Sơ đồ luồng), Class Diagram (Sơ đồ lớp) và ERD (Sơ đồ thực thể mối quan hệ/Database)
+. Công cụ Mermaid được khuyến khích sử dụng để vẽ sơ đồ từ mã nguồn
+.
+• Trí tuệ nhân tạo (AI): Được phép sử dụng thoải mái các công cụ AI (như Gemini, ChatGPT) để hỗ trợ viết code, tạo dữ liệu mẫu, phân tích tính năng và thiết kế kế hoạch làm việc
+. Tuy nhiên, bạn phải verify (xác minh) lại thông tin vì AI có thể gây ra hiện tượng "ảo giác" (sai lệch thông tin)
+.
+• Môi trường lập trình (IDE): Có thể sử dụng NetBeans, Eclipse hoặc bất kỳ công cụ nào hỗ trợ Java, miễn là môi trường này được cài đặt đồng bộ trên máy của tất cả các thành viên trong nhóm
+.
+4. Yêu cầu về nhóm và quy trình
+• Số lượng thành viên: Nhóm lý tưởng từ 3 đến 4 người
+.
+• Giao diện (Frontend): Có thể sử dụng HTML/CSS thuần hoặc các framework như React, Vue... nhưng giao diện phải dễ nhìn và chuyên nghiệp, không được làm giao diện quá sơ sài hoặc xấu
+.
+Việc triển khai dự án này giống như xây dựng một ngôi nhà mới trên nền đất cũ: bạn không chỉ phải xây dựng cấu trúc nhà (code Java/Web), mà còn phải có quy trình chuyển đồ đạc từ nhà cũ sang (import dữ liệu) và đảm bảo hệ thống điện nước hoạt động ổn định trong thời gian thực (simulator).
+
+Tạo một script java về mô hình
+2.1. E-Commerce Simulation (Mô hình Shopee/Lazada)
+Thực thể: User, Shop, Product (với nhiều biến thể Size/Màu), Order, Voucher.
+Thách thức: Xử lý giỏ hàng, tính toán khuyến mãi chồng chéo, logic tồn kho biến thể.
+Simulator: Giả lập "Flash Sale" - hàng nghìn user cùng đặt hàng một lúc, hệ thống phải trừ kho chính xác.
+Dựa trên các yêu cầu từ nguồn tài liệu, tôi sẽ cung cấp cho bạn cấu trúc mã nguồn Java mô phỏng mô hình E-Commerce với các thực thể và tính năng giả lập Flash Sale. Lưu ý rằng theo quy định, dự án của bạn phải là một ứng dụng Web (chạy trên Server như Apache Tomcat) chứ không chỉ dừng lại ở các đoạn script chạy màn hình console
+.
+Dưới đây là khung mã nguồn Java minh họa các thực thể và logic giả lập (Simulator) phù hợp với yêu cầu:
+1. Cấu trúc Thực thể (Entities)
+Hệ thống cần quản lý ít nhất 10.000 dòng dữ liệu và xử lý logic biến thể sản phẩm
+.
+
+import java.util.*;
+
+// Thực thể Sản phẩm với biến thể
+class Product {
+    String id;
+    String name;
+    Map<String, Integer> variations; // Size/Màu -> Số lượng tồn kho
+
+    public Product(String id, String name) {
+        this.id = id;
+        this.name = name;
+        this.variations = new HashMap<>();
+    }
+
+    // Logic trừ kho chính xác (Thread-safe cho Flash Sale)
+    public synchronized boolean updateInventory(String variant, int quantity) {
+        int currentStock = variations.getOrDefault(variant, 0);
+        if (currentStock >= quantity) {
+            variations.put(variant, currentStock - quantity);
+            return true;
+        }
+        return false;
+    }
+}
+
+// Thực thể Voucher
+class Voucher {
+    String code;
+    double discountValue;
+    boolean isStackable; // Khuyến mãi chồng chéo
+}
+
+2. Logic Giả lập Flash Sale (Simulator)
+Theo nguồn tài liệu, bạn cần viết một phần giả lập real-time để thể hiện đơn hàng đổ về liên tục, mô phỏng hoạt động thực tế
+.
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class FlashSaleSimulator {
+    public void startSimulation(Product product, String variant) {
+        // Giả lập hàng nghìn User cùng đặt hàng một lúc bằng Thread Pool
+        ExecutorService executor = Executors.newFixedThreadPool(100); 
+
+        for (int i = 0; i < 1000; i++) {
+            executor.execute(() -> {
+                boolean success = product.updateInventory(variant, 1);
+                if (success) {
+                    System.out.println("User đặt hàng thành công! Đơn hàng đang được tạo...");
+                    // Logic tạo Order và tính toán Voucher ở đây
+                } else {
+                    System.err.println("Hết hàng!");
+                }
+            });
+        }
+        executor.shutdown();
+    }
+}
+
+3. Các yêu cầu kỹ thuật đi kèm từ nguồn tài liệu
+Để script này trở thành một phần của dự án đạt yêu cầu, bạn cần lưu ý:
+• Tạo dữ liệu lỗi: Khi sử dụng script hoặc AI để sinh ra 10.000 dòng dữ liệu cho các thực thể User/Product, bạn phải chủ động tạo ra 5% - 10% dữ liệu lỗi (ví dụ: số điện thoại sai định dạng, dữ liệu thiếu) để kiểm tra khả năng làm sạch dữ liệu khi Import vào hệ thống mới
+.
+• Quản lý mã nguồn: Toàn bộ mã nguồn phải được đẩy lên GitHub. Thầy giáo sẽ kiểm tra lịch sử commit thường xuyên để đánh giá sự tham gia của từng thành viên (nhóm từ 3-4 người)
+.
+• Thiết kế hệ thống: Bạn cần sử dụng các công cụ như Mermaid để vẽ Class Diagram (Sơ đồ lớp) và ERD (Sơ đồ cơ sở dữ liệu) thể hiện mối quan hệ giữa User, Shop, Order và Voucher trước khi code
+.
+• Công cụ hỗ trợ: Bạn có thể sử dụng AI (Gemini, ChatGPT) để mở rộng logic tính toán khuyến mãi chồng chéo, nhưng phải xác minh lại (verify) để tránh lỗi "ảo giác" của AI
+.
+Lưu ý quan trọng: Thông tin về logic tính toán khuyến mãi chồng chéo (stacking vouchers) và chi tiết các biến thể không có sẵn mã nguồn cụ thể trong các đoạn hội thoại, phần mã trên là do tôi (Expert) đề xuất dựa trên kinh nghiệm lập trình Java để đáp ứng yêu cầu "thách thức" mà bạn nêu ra. Bạn nên cài đặt một hệ quản trị cơ sở dữ liệu như SQL Server hoặc MySQL trên máy cục bộ để lưu trữ 10.000 dòng dữ liệu này
+.
+Ví von để dễ hiểu: Việc xây dựng dự án này giống như tổ chức một ngày hội giảm giá lớn tại một siêu thị. Script Java của bạn là các nhân viên thu ngân và hệ thống kho, còn bộ Simulator chính là việc bạn giả lập hàng nghìn khách hàng tràn vào cửa cùng một lúc; hệ thống của bạn phải đảm bảo không ai lấy được hàng khi kho đã trống và mọi hóa đơn giảm giá đều được tính đúng.
