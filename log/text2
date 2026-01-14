@@ -1,0 +1,49 @@
+Phân tích hệ thống. Vẽ ERD (Database). Vẽ Flowchart (Lược đồ thuật toán) cho các chức năng chính.
+2.1. E-Commerce Simulation (Mô hình Shopee/Lazada)
+Thực thể: User, Shop, Product (với nhiều biến thể Size/Màu), Order, Voucher.
+Thách thức: Xử lý giỏ hàng, tính toán khuyến mãi chồng chéo, logic tồn kho biến thể.
+Simulator: Giả lập "Flash Sale" - hàng nghìn user cùng đặt hàng một lúc, hệ thống phải trừ kho chính xác.
+Dựa trên các yêu cầu kỹ thuật và hướng dẫn từ nguồn tài liệu, dưới đây là phân tích hệ thống và định hướng thiết kế sơ đồ cho dự án E-Commerce Simulation (Mô phỏng Shopee/Lazada) của bạn:
+1. Phân tích hệ thống (System Analysis)
+Hệ thống này không chỉ đơn thuần là một trang web bán hàng mà là một hệ thống mô phỏng thực tế với khối lượng dữ liệu lớn (ít nhất 10.000 dòng dữ liệu)
+. Theo nguồn tài liệu, bạn cần tập trung vào các đặc điểm sau:
+• Chức năng chính: Quản lý giỏ hàng, thanh toán, áp dụng khuyến mãi phức tạp và quản lý kho theo biến thể sản phẩm
+.
+• Chức năng Import: Bạn phải giả lập một hệ thống cũ và viết chức năng import dữ liệu vào hệ thống mới. Dữ liệu này cần chứa 5-10% lỗi (ví dụ: sai định dạng số điện thoại) để hệ thống thực hiện bước làm sạch dữ liệu
+.
+• Simulator (Giả lập Flash Sale): Đây là phần quan trọng nhất để chứng minh tính ổn định của hệ thống. Bạn cần viết một kịch bản giả lập hàng nghìn người dùng truy cập và đặt hàng cùng lúc (real-time) để kiểm tra khả năng xử lý tranh chấp kho (inventory concurrency)
+.
+2. Thiết kế ERD (Sơ đồ thực thể mối quan hệ)
+Dựa trên các thực thể bạn yêu cầu, sơ đồ ERD cần thể hiện được các mối quan hệ logic sau:
+• User (Người dùng): Chứa thông tin tài khoản, địa chỉ và lịch sử mua hàng. Lưu ý xử lý dữ liệu lỗi ở cột số điện thoại khi import
+.
+• Shop (Cửa hàng): Quản lý các sản phẩm của từng shop riêng biệt
+.
+• Product & Variations (Sản phẩm & Biến thể): Một sản phẩm có nhiều biến thể (Size/Màu). Mỗi biến thể có một lượng tồn kho (Stock) riêng. Đây là điểm mấu chốt để trừ kho chính xác khi Flash Sale diễn ra.
+• Order (Đơn hàng): Kết nối User, Product và Shop. Phải lưu trữ thông tin thanh toán cuối cùng sau khi áp dụng Voucher.
+• Voucher (Khuyến mãi): Cần có thuộc tính để phân biệt loại voucher (ví dụ: của sàn hoặc của shop) để xử lý logic khuyến mãi chồng chéo (stackable vouchers)
+.
+3. Vẽ Flowchart cho các chức năng chính
+Bạn nên sử dụng công cụ Mermaid để vẽ các lược đồ này vì nó giúp dễ dàng render từ mã nguồn và cập nhật trên GitHub
+.
+• Flowchart logic trừ kho Flash Sale:
+    1. Người dùng nhấn "Đặt hàng".
+    2. Hệ thống kiểm tra tồn kho của biến thể sản phẩm (Size/Màu) theo thời gian thực.
+    3. Sử dụng cơ chế đồng bộ (Thread-safe) trong Java để đảm bảo chỉ những người nhanh nhất mới được xác nhận đơn hàng
+.
+    4. Nếu còn hàng: Trừ kho -> Tạo đơn hàng -> Thông báo thành công.
+    5. Nếu hết hàng: Thông báo thất bại ngay lập tức để tránh quá tải server.
+• Flowchart logic tính Voucher:
+    1. Kiểm tra điều kiện đơn hàng (giá trị tối thiểu, ngành hàng).
+    2. Kiểm tra tính "chồng chéo": Nếu đơn hàng có cả Voucher sàn và Voucher shop, hệ thống phải cộng dồn hoặc tính toán mức giảm tối ưu nhất cho người dùng
+.
+4. Yêu cầu kỹ thuật bắt buộc khi triển khai
+• Công nghệ: Phải sử dụng ngôn ngữ Java và triển khai dưới dạng ứng dụng Web (không chạy màn hình console)
+.
+• Server & Database: Sử dụng Apache Tomcat làm web server và các hệ quản trị cơ sở dữ liệu như SQL Server, MySQL hoặc Oracle cài đặt local trên máy
+.
+• Quản lý dự án: Toàn bộ code và sơ đồ phải được đẩy lên GitHub. Thầy giáo sẽ kiểm tra lịch sử commit thường xuyên để đánh giá sự tham gia của từng thành viên (nhóm 3-4 người)
+.
+• Sử dụng AI: Bạn được phép dùng AI (Gemini, ChatGPT) để hỗ trợ phân tích tính năng và thiết kế sơ đồ, nhưng phải verify (xác minh) lại để tránh hiện tượng "ảo giác" (sai kiến trúc hệ thống)
+.
+Việc hoàn thành 3 loại lược đồ: Flowchart, Class Diagram và ERD là yêu cầu bắt buộc để đạt điểm cho phần phân tích hệ thốn
