@@ -1,0 +1,205 @@
+✅ PHẦN 1 – PHÂN TÍCH THỰC THỂ (ENTITY)
+
+Theo đề bài:
+
+User, Shop, Product (Size/Màu), Order, Voucher
+
+Ta mở rộng thành:
+
+👤 USER
+
+id (PK)
+
+username
+
+password
+
+email
+
+role (buyer / seller)
+
+created_at
+
+🏪 SHOP
+
+id (PK)
+
+name
+
+owner_id (FK → User.id)
+
+created_at
+
+📦 PRODUCT
+
+id (PK)
+
+shop_id (FK → Shop.id)
+
+name
+
+description
+
+base_price
+
+created_at
+
+🎨 PRODUCT_VARIANT
+
+(mỗi sản phẩm có size + màu khác nhau)
+
+id (PK)
+
+product_id (FK → Product.id)
+
+size
+
+color
+
+price
+
+stock_quantity
+
+🧾 ORDER
+
+id (PK)
+
+user_id (FK → User.id)
+
+total_amount
+
+status
+
+created_at
+
+🧾 ORDER_ITEM
+
+id (PK)
+
+order_id (FK → Order.id)
+
+variant_id (FK → Product_Variant.id)
+
+quantity
+
+price
+
+🎟️ VOUCHER
+
+id (PK)
+
+code
+
+discount_percent
+
+max_discount
+
+expired_at
+
+🔗 ORDER_VOUCHER
+
+order_id (FK)
+
+voucher_id (FK)
+
+👉 Tổng cộng: 8 bảng (đáp ứng yêu cầu ≥ 4 entity)
+
+✅ PHẦN 2 – VẼ ERD (DATABASE)
+
+Bạn mở web:
+
+👉 https://mermaid.live
+
+Copy đoạn này dán vào:
+
+erDiagram
+    USER ||--o{ SHOP : owns
+    SHOP ||--o{ PRODUCT : sells
+    PRODUCT ||--o{ PRODUCT_VARIANT : has
+    USER ||--o{ ORDER : places
+    ORDER ||--o{ ORDER_ITEM : contains
+    PRODUCT_VARIANT ||--o{ ORDER_ITEM : ordered
+    ORDER ||--o{ ORDER_VOUCHER : uses
+    VOUCHER ||--o{ ORDER_VOUCHER : applied
+
+
+👉 Bấm Render → xuất hình → lưu file.
+
+📸 Đây chính là file ERD để nộp.
+
+✅ PHẦN 3 – FLOWCHART: QUY TRÌNH ĐẶT HÀNG
+
+Chức năng chính: Đặt hàng
+
+Bạn vẽ flowchart như sau (có thể vẽ tay hoặc mermaid):
+
+Luồng logic:
+Start
+ ↓
+User chọn sản phẩm
+ ↓
+Chọn size + màu
+ ↓
+Kiểm tra tồn kho
+ ├── Nếu hết hàng → Thông báo → End
+ └── Nếu còn → Thêm vào giỏ hàng
+ ↓
+Áp voucher (nếu có)
+ ↓
+Tính tổng tiền
+ ↓
+Xác nhận đặt hàng
+ ↓
+Tạo Order
+ ↓
+Trừ stock (Transaction)
+ ↓
+End
+
+
+Nếu bạn muốn mình tạo luôn file Mermaid Flowchart cho bạn để xuất ảnh → mình làm ngay.
+
+✅ PHẦN 4 – SIMULATOR FLASH SALE (Ý TƯỞNG)
+
+Để báo cáo thầy:
+
+🎯 Mục tiêu
+
+Giả lập 1000 user đặt hàng cùng lúc.
+
+🧪 Cách làm:
+
+Tạo servlet API:
+
+POST /api/order
+
+
+Simulator (Java Console):
+
+Dùng vòng for gửi 1000 request HTTP
+
+Mỗi request đặt mua cùng 1 sản phẩm
+
+Server:
+
+Dùng Transaction SQL:
+
+BEGIN TRANSACTION
+Check stock
+If stock > 0 → update stock
+Else → reject
+COMMIT
+
+
+👉 Đảm bảo không bị âm kho.
+
+✅ BƯỚC TIẾP THEO CHO BẠN
+
+Bạn chọn:
+
+👉 A. Mình giúp bạn xuất file ERD hình ảnh
+👉 B. Mình giúp bạn vẽ Flowchart chuẩn để nộp
+👉 C. Mình giúp bạn viết SQL tạo bảng theo ERD
+👉 D. Làm tiếp code Servlet kết nối DB
+
+Bạn chọn 1 hướng, mình đi tiếp cùng bạn 💪
