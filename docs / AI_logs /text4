@@ -231,3 +231,45 @@ CREATE TABLE Order_Vouchers (
     FOREIGN KEY (order_id) REFERENCES Orders(order_id),
     FOREIGN KEY (voucher_id) REFERENCES Vouchers(voucher_id)
 );
+4. SQL Import CSV mẫu với xử lý dữ liệu rác
+-- Giả sử file CSV có các cột: ProductName, ShopID, Color, Size, Price, Stock
+BULK INSERT Products
+FROM 'C:\Data\products.csv'
+WITH (
+    FIELDTERMINATOR = ',',
+    ROWTERMINATOR = '\n',
+    FIRSTROW = 2
+);
+
+-- Nếu muốn xử lý dữ liệu rác, có thể dùng staging table
+CREATE TABLE Products_Staging (
+    product_name NVARCHAR(100),
+    shop_id INT,
+    color NVARCHAR(50),
+    size NVARCHAR(20),
+    price DECIMAL(10,2),
+    stock INT
+);
+
+BULK INSERT Products_Staging
+FROM 'C:\Data\products.csv'
+WITH (
+    FIELDTERMINATOR = ',',
+    ROWTERMINATOR = '\n',
+    FIRSTROW = 2
+);
+
+-- Loại bỏ dòng rác
+DELETE FROM Products_Staging
+WHERE product_name IS NULL OR price <= 0;
+
+-- Chèn vào bảng chính
+INSERT INTO Products (shop_id, product_name, price_base, stock_total)
+SELECT DISTINCT shop_id, product_name, price, stock
+FROM Products_Staging;
+
+-- Chèn các variant
+INSERT INTO Product_Variants (product_id, color, size, price, stock)
+SELECT p.product_id, s.color, s.size, s.price, s.stock
+FROM Products_Staging s
+JOIN Products p ON s.product_name = p.product_name AND s.shop_id = p.shop_id;
