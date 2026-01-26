@@ -1,0 +1,43 @@
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Random;
+
+public class DataGenerator {
+    public static void main(String[] args) {
+        String fileName = "ecommerce_data_10000.csv";
+        try (FileWriter writer = new FileWriter(fileName)) {
+            // Header cho file Excel/CSV
+            writer.append("RecordID,Type,EntityID,Detail,Quantity_Value,Phone_Status\n");
+
+            Random rd = new Random();
+            for (int i = 1; i <= 10000; i++) {
+                int errorChance = rd.nextInt(100);
+                String phone = "090" + (1000000 + rd.nextInt(9000000));
+                String status = "Valid";
+
+                // Tạo lỗi ngẫu nhiên 5-10% (ví dụ: số điện thoại thiếu số) [4, 7]
+                if (errorChance < 7) { 
+                    phone = phone.substring(0, rd.nextInt(5) + 4); // Cắt ngắn số điện thoại
+                    status = "Error_InvalidPhone";
+                }
+
+                // Giả lập các thực thể khác nhau
+                if (i <= 2000) { // 2000 Users
+                    writer.append(i + ",User,U" + i + ",User_Name_" + i + ",0," + phone + "\n");
+                } else if (i <= 3000) { // 1000 Shops
+                    writer.append(i + ",Shop,S" + i + ",Shop_Name_" + i + ",0,N/A\n");
+                } else if (i <= 8000) { // 5000 Product Variants (Size/Color)
+                    String variant = (rd.nextBoolean() ? "Red" : "Blue") + "-" + (rd.nextBoolean() ? "L" : "M");
+                    writer.append(i + ",Product,P" + i + ",Variant_" + variant + "," + (10 + rd.nextInt(100)) + ",N/A\n");
+                } else { // 2000 Vouchers
+                    writer.append(i + ",Voucher,V" + i + ",DISCOUNT_" + rd.nextInt(50) + "%,0,N/A\n");
+                }
+            }
+            System.out.println("Đã tạo thành công 10.000 dòng dữ liệu tại: " + fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+Sua doan code nay, de ten User tro ten ngau nhien. Vi du: John Decon, Jonny Sins, Nguyen Van Troi, Vu Hong Anh, ..... Them phan password trong csv, va no duoc format de an ######
