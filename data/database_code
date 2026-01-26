@@ -89,7 +89,7 @@ CREATE TABLE Order_Vouchers (
 -- Giả sử file CSV có các cột: ProductName, ShopID, Color, Size, Price, Stock
 Use ECommerceDB
 BULK INSERT Products
-FROM 'D:\Download\shopee_data_10000.csv'
+FROM 'D:\Download\ecomerce_data_10000.csv'
 WITH (
     FIELDTERMINATOR = ',',
     ROWTERMINATOR = '\n',
@@ -107,7 +107,7 @@ CREATE TABLE Products_Staging (
 );
 
 BULK INSERT Products_Staging
-FROM 'D:\Download\shopee_data_10000.csv'
+FROM 'D:\Download\ecomerce_data_10000.csv'
 WITH (
     FIELDTERMINATOR = ',',
     ROWTERMINATOR = '\n',
